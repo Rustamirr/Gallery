@@ -1,3 +1,8 @@
 package com.example.gallery.presentation.gallery
 
-class GalleryFragment
+class GalleryFragment {
+
+    companion object {
+        fun newInstance() = GalleryFragment()
+    }
+}

@@ -1,5 +1,6 @@
-package com.example.gallery.domain.core
+package com.example.gallery.presentation.core
 
+import com.example.gallery.domain.core.Schedulers
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
