@@ -4,5 +4,5 @@ import io.reactivex.Single
 
 interface GalleryRepository {
 
-    fun getGalleryImages(imageTag: String): Single<GalleryDto>
+    fun searchPhotosByText(page: Int, searchText: String): Single<List<Photo>>
 }

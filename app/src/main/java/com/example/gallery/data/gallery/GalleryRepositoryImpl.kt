@@ -1,8 +1,9 @@
 package com.example.gallery.data.gallery
 
 import com.example.gallery.data.gallery.network.GalleryNetworkSource
-import com.example.gallery.domain.gallery.GalleryDto
+import com.example.gallery.data.gallery.network.toListOfPhoto
 import com.example.gallery.domain.gallery.GalleryRepository
+import com.example.gallery.domain.gallery.Photo
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class GalleryRepositoryImpl
     private val galleryNetworkSource: GalleryNetworkSource
 ) : GalleryRepository {
 
-    override fun getGalleryImages(imageTag: String): Single<GalleryDto> =
-        galleryNetworkSource.getGalleryImages(imageTag)
-            .map { TODO("Map response to dto") }
+    override fun searchPhotosByText(page: Int, searchText: String): Single<List<Photo>> =
+        galleryNetworkSource.searchPhotosByText(page, searchText)
+            .map { it.toListOfPhoto() }
 }

@@ -1,5 +1,5 @@
 package com.example.gallery.domain.gallery
 
 data class GalleryState(
-    val isImageTagFilled: Boolean = false
+    val isSearchTextFilled: Boolean = false
 )

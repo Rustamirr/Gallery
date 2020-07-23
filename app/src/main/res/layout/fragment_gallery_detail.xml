@@ -2,7 +2,9 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/photo"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:ignore="ContentDescription"
-    tools:src="@android:drawable/ic_menu_help" />
+    tools:src="@android:drawable/ic_menu_help">
+
+</ImageView>

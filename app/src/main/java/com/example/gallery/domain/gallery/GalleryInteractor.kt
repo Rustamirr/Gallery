@@ -5,7 +5,7 @@ import io.reactivex.Single
 
 interface GalleryInteractor : Interactor<GalleryState> {
 
-    fun imageTagChanged(imageTag: String)
+    fun imageTagChanged(searchText: String)
 
-    fun loadImages(imageTag: String): Single<GalleryDto>
+    fun loadImages(searchText: String): Single<List<Photo>>
 }

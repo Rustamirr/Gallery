@@ -4,5 +4,5 @@ import io.reactivex.Single
 
 interface GalleryNetworkSource {
 
-    fun getGalleryImages(imageTag: String): Single<GalleryNetworkResponse>
+    fun searchPhotosByText(page: Int, searchText: String): Single<SearchPhotosResponse>
 }
