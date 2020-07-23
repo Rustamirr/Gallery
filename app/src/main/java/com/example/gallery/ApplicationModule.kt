@@ -14,7 +14,7 @@ import dagger.Provides
         AppDataModule::class
     ]
 )
-abstract class ApplicationModule {
+interface ApplicationModule {
 
     companion object {
         @Provides

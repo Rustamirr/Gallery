@@ -12,7 +12,8 @@ class MainActivityPresenter
     private val router: Router
 ) : MvpPresenter<MainActivityView>() {
 
-    private fun navigateToStartScreen() {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
         router.navigateTo(Screen.Gallery)
     }
 }

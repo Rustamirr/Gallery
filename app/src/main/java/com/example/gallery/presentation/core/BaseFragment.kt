@@ -30,7 +30,7 @@ abstract class BaseFragment<VB : ViewBinding, S, P : BasePresenter<S, *, *>> :
     @Inject
     lateinit var presenterProvider: Provider<P>
 
-    protected val presenter by baseMoxyPresenter(::presenterProvider::class.java.name) { presenterProvider.get() }
+    protected val presenter: P by baseMoxyPresenter(::presenterProvider::class.java.name) { presenterProvider.get() }
 
     override fun androidInjector() = dispatchingAndroidInjector
 

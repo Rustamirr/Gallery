@@ -12,8 +12,6 @@ abstract class BaseModel<S>(defaultState: S) : Interactor<S> {
         BehaviorSubject.createDefault(startState).toSerialized()
     }
 
-    override fun observeState(): Observable<S> = stateSubject.hide()
-
     protected fun getState(): S = stateSubject.blockingFirst()
 
     protected fun updateState(state: S) {
@@ -23,4 +21,6 @@ abstract class BaseModel<S>(defaultState: S) : Interactor<S> {
     protected inline fun updateState(updater: S.() -> S) {
         updateState(updater(getState()))
     }
+
+    override fun observeState(): Observable<S> = stateSubject.hide()
 }

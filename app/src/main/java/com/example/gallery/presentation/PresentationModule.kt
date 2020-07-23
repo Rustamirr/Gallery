@@ -13,4 +13,4 @@ import dagger.android.support.AndroidSupportInjectionModule
         NavigationModule::class
     ]
 )
-class PresentationModule
+interface PresentationModule
