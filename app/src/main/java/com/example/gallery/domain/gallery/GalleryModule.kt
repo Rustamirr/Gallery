@@ -1,3 +1,11 @@
 package com.example.gallery.domain.gallery
 
-interface GalleryModule
+import dagger.Binds
+import dagger.Module
+
+@Module
+interface GalleryModule {
+
+    @Binds
+    fun bindGalleryInteractor(galleryModel: GalleryModel): GalleryInteractor
+}

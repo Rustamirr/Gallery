@@ -7,7 +7,7 @@ import javax.inject.Inject
 class LoggerImpl
 @Inject constructor() : Logger {
 
-    override fun logError(exception: Exception) {
-        Timber.e(exception)
+    override fun logError(throwable: Throwable) {
+        Timber.e(throwable)
     }
 }

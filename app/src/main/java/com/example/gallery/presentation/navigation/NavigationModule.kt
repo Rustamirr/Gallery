@@ -16,10 +16,12 @@ interface NavigationModule {
         @Provides
         fun provideCicerone(): Cicerone<Router> = Cicerone.create()
 
+        @Singleton
         @Provides
         fun provideNavigationHolder(cicerone: Cicerone<Router>): NavigatorHolder =
             cicerone.navigatorHolder
 
+        @Singleton
         @Provides
         fun provideRouter(cicerone: Cicerone<Router>): Router = cicerone.router
     }
