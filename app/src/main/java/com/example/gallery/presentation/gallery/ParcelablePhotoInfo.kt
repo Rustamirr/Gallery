@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ParcelablePhoto(
+data class ParcelablePhotoInfo(
     val id: String,
     val title: String,
     val farmId: Int,

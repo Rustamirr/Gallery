@@ -1,8 +1,8 @@
 package com.example.gallery.presentation.gallery
 
-import com.example.gallery.domain.gallery.Photo
-import com.example.gallery.presentation.gallery.adapter.GalleryItem
+import com.example.gallery.domain.gallery.PhotoInfo
+import com.example.gallery.presentation.gallery.adapter.PhotoItem
 
-fun Photo.toGalleryItem() = GalleryItem(id, title, farmId, secret, serverId)
+fun PhotoInfo.toPhotoItem() = PhotoItem(id, title, farmId, secret, serverId)
 
-fun GalleryItem.toParcelablePhoto() = ParcelablePhoto(id, title, farmId, secret, serverId)
+fun PhotoItem.toParcelablePhotoInfo() = ParcelablePhotoInfo(id, title, farmId, secret, serverId)

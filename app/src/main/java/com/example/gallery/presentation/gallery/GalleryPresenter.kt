@@ -4,9 +4,9 @@ import com.example.gallery.domain.core.Logger
 import com.example.gallery.domain.core.Schedulers
 import com.example.gallery.domain.gallery.GalleryInteractor
 import com.example.gallery.domain.gallery.GalleryState
-import com.example.gallery.domain.gallery.Photo
+import com.example.gallery.domain.gallery.PhotoInfo
 import com.example.gallery.presentation.core.BasePresenter
-import com.example.gallery.presentation.gallery.adapter.GalleryItem
+import com.example.gallery.presentation.gallery.adapter.PhotoItem
 import com.example.gallery.presentation.navigation.Screen
 import io.reactivex.rxkotlin.subscribeBy
 import moxy.InjectViewState
@@ -38,8 +38,8 @@ class GalleryPresenter
         interactor.imageTagChanged(searchText)
     }
 
-    fun onPhotoClick(galleryItem: GalleryItem) {
-        router.navigateTo(Screen.GalleryDetail(galleryItem.toParcelablePhoto()))
+    fun onPhotoClick(photoItem: PhotoItem) {
+        router.navigateTo(Screen.GalleryDetail(photoItem.toParcelablePhotoInfo()))
     }
 
     fun onFindButtonClick(searchText: String) {
@@ -48,7 +48,7 @@ class GalleryPresenter
                 .subscribeOn(schedulers.io())
                 .observeOn(schedulers.main())
                 .subscribeBy(
-                    onSuccess = { viewState.renderList(it.map(Photo::toGalleryItem)) },
+                    onSuccess = { viewState.renderList(it.map(PhotoInfo::toPhotoItem)) },
                     onError = logger::logError
                 )
         )

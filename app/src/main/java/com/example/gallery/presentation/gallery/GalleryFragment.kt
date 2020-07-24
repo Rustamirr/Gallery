@@ -11,7 +11,7 @@ import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.presentation.core.BaseFragment
 import com.example.gallery.presentation.core.hideKeyboard
 import com.example.gallery.presentation.gallery.adapter.GalleryAdapter
-import com.example.gallery.presentation.gallery.adapter.GalleryItem
+import com.example.gallery.presentation.gallery.adapter.PhotoItem
 
 private const val GRID_PHOTO_COLUMNS = 4
 
@@ -45,7 +45,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         binding.findButton.isEnabled = isEnabled
     }
 
-    override fun renderList(list: List<GalleryItem>) {
+    override fun renderList(list: List<PhotoItem>) {
         hideKeyboard()
         adapter.submitList(list)
     }

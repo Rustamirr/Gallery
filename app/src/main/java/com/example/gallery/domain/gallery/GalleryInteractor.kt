@@ -7,5 +7,5 @@ interface GalleryInteractor : Interactor<GalleryState> {
 
     fun imageTagChanged(searchText: String)
 
-    fun loadImages(searchText: String): Single<List<Photo>>
+    fun loadImages(searchText: String): Single<List<PhotoInfo>>
 }

@@ -1,6 +1,6 @@
 package com.example.gallery.presentation.gallery.adapter
 
-data class GalleryItem(
+data class PhotoItem(
     val id: String,
     val title: String,
     val farmId: Int,

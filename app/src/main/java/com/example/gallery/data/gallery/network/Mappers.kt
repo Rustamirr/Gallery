@@ -1,8 +1,8 @@
 package com.example.gallery.data.gallery.network
 
-import com.example.gallery.domain.gallery.Photo
+import com.example.gallery.domain.gallery.PhotoInfo
 
-fun SearchPhotosResponse.toListOfPhoto() = photosResponse.photoResponse
-    .map(PhotoResponse::toPhoto)
+fun SearchPhotosResponse.toPhotoInfoList() = photosResponse.photoResponse
+    .map(PhotoResponse::toPhotoInfo)
 
-private fun PhotoResponse.toPhoto() = Photo(id, title, farmId, secret, serverId)
+private fun PhotoResponse.toPhotoInfo() = PhotoInfo(id, title, farmId, secret, serverId)

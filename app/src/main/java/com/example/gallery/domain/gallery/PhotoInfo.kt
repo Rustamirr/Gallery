@@ -1,6 +1,6 @@
 package com.example.gallery.domain.gallery
 
-data class Photo(
+data class PhotoInfo(
     val id: String,
     val title: String,
     val farmId: Int,

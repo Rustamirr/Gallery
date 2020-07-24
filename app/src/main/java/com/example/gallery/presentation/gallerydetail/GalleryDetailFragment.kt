@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import com.example.gallery.databinding.FragmentGalleryDetailBinding
 import com.example.gallery.domain.core.EmptyState
 import com.example.gallery.presentation.core.BaseFragment
-import com.example.gallery.presentation.gallery.ParcelablePhoto
+import com.example.gallery.presentation.gallery.ParcelablePhotoInfo
 
 private const val ARGUMENT_PHOTO = "ARGUMENT_PHOTO"
 
@@ -17,19 +17,19 @@ class GalleryDetailFragment :
     GalleryDetailView {
 
     companion object {
-        fun newInstance(photo: ParcelablePhoto) = GalleryDetailFragment()
+        fun newInstance(photoInfo: ParcelablePhotoInfo) = GalleryDetailFragment()
             .apply {
-                arguments = bundleOf(ARGUMENT_PHOTO to photo)
+                arguments = bundleOf(ARGUMENT_PHOTO to photoInfo)
             }
     }
 
-    val photo: ParcelablePhoto = requireNotNull(arguments?.getParcelable(ARGUMENT_PHOTO))
+    val photoInfo: ParcelablePhotoInfo = requireNotNull(arguments?.getParcelable(ARGUMENT_PHOTO))
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryDetailBinding =
         FragmentGalleryDetailBinding.inflate(this, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val a = photo
+        val a = photoInfo
     }
 }

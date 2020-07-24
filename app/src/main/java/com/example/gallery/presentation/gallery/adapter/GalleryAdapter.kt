@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.gallery.R
 
-class GalleryAdapter : ListAdapter<GalleryItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
+class GalleryAdapter : ListAdapter<PhotoItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         GalleryViewHolder(
