@@ -2,10 +2,11 @@ package com.example.gallery.presentation.gallery.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagedListAdapter
 import com.example.gallery.R
 
-class GalleryAdapter : ListAdapter<PhotoItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
+class GalleryAdapter :
+    PagedListAdapter<PhotoInfoItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         GalleryViewHolder(

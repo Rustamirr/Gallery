@@ -61,6 +61,7 @@ ext {
     rxAndroidVersion = '2.1.1'
     rxKotlinVersion = '2.4.0'
     timberVersion = '4.7.1'
+    pagingVersion = '2.1.2'
 }
 
 dependencies {
@@ -112,4 +113,8 @@ dependencies {
 
     // Timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    implementation "androidx.paging:paging-rxjava2-ktx:$pagingVersion"
 }

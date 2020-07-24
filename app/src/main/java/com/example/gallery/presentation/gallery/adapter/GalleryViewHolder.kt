@@ -14,8 +14,12 @@ class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val glideManager: RequestManager = Glide.with(itemView.context)
     private val binding = FragmentGalleryItemBinding.bind(itemView)
 
-    fun bind(item: PhotoItem) {
-        glideManager.load(PHOTO_URL_FORMAT.format(item.farmId, item.serverId, item.id, item.secret))
+    fun bind(item: PhotoInfoItem?) {
+        val res = when (item != null) {
+            true -> PHOTO_URL_FORMAT.format(item.farmId, item.serverId, item.id, item.secret)
+            else -> null
+        }
+        glideManager.load(res)
             .placeholder(android.R.drawable.ic_menu_help)
             .centerCrop()
             .into(binding.photo)

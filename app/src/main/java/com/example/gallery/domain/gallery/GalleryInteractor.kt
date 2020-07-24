@@ -1,11 +1,11 @@
 package com.example.gallery.domain.gallery
 
 import com.example.gallery.domain.core.Interactor
-import io.reactivex.Single
+import io.reactivex.Completable
 
 interface GalleryInteractor : Interactor<GalleryState> {
 
-    fun imageTagChanged(searchText: String)
+    fun loadPhotosInfo(page: Int, searchText: String): Completable
 
-    fun loadImages(searchText: String): Single<List<PhotoInfo>>
+    fun searchTextChanged(searchText: String)
 }
