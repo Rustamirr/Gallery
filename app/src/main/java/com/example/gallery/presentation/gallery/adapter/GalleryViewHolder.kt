@@ -19,5 +19,6 @@ class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .placeholder(android.R.drawable.ic_menu_help)
             .centerCrop()
             .into(binding.photo)
+        itemView.setOnClickListener { TODO("presenter.onPhotoClick(item)") }
     }
 }

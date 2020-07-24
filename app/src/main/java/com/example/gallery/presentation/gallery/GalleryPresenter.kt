@@ -6,7 +6,8 @@ import com.example.gallery.domain.gallery.GalleryInteractor
 import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.domain.gallery.Photo
 import com.example.gallery.presentation.core.BasePresenter
-import com.example.gallery.presentation.gallery.adapter.toGalleryItem
+import com.example.gallery.presentation.gallery.adapter.GalleryItem
+import com.example.gallery.presentation.navigation.Screen
 import io.reactivex.rxkotlin.subscribeBy
 import moxy.InjectViewState
 import ru.terrakok.cicerone.Router
@@ -35,6 +36,10 @@ class GalleryPresenter
 
     fun onSearchTextChanged(searchText: String) {
         interactor.imageTagChanged(searchText)
+    }
+
+    fun onPhotoClick(galleryItem: GalleryItem) {
+        router.navigateTo(Screen.GalleryDetail(galleryItem.toParcelablePhoto()))
     }
 
     fun onFindButtonClick(searchText: String) {
