@@ -8,7 +8,5 @@ data class PhotosInfo(
 data class PhotoInfo(
     val id: String,
     val title: String,
-    val farmId: Int,
-    val secret: String,
-    val serverId: String
+    val url: String
 )

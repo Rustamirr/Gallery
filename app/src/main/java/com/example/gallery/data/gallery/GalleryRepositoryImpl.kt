@@ -1,6 +1,7 @@
 package com.example.gallery.data.gallery
 
 import com.example.gallery.data.gallery.network.GalleryNetworkSource
+import com.example.gallery.data.gallery.network.SearchPhotosResponse
 import com.example.gallery.data.gallery.network.toPhotosInfo
 import com.example.gallery.domain.gallery.GalleryRepository
 import com.example.gallery.domain.gallery.PhotosInfo
@@ -18,5 +19,5 @@ class GalleryRepositoryImpl
         searchText: String
     ): Single<PhotosInfo> =
         galleryNetworkSource.searchPhotosByText(page, pageSize, searchText)
-            .map { it.toPhotosInfo() }
+            .map(SearchPhotosResponse::toPhotosInfo)
 }

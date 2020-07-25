@@ -19,16 +19,8 @@ data class PhotosResponse(
     val pages: Int,
 
     @Expose
-    @SerializedName("perpage")
-    val perPage: Int,
-
-    @Expose
     @SerializedName("photo")
-    val photoResponse: List<PhotoResponse>,
-
-    @Expose
-    @SerializedName("total")
-    val total: String
+    val photoResponse: List<PhotoResponse>
 )
 
 data class PhotoResponse(
@@ -39,22 +31,6 @@ data class PhotoResponse(
     @Expose
     @SerializedName("id")
     val id: String,
-
-    @Expose
-    @SerializedName("isfamily")
-    val isFamily: Int,
-
-    @Expose
-    @SerializedName("isfriend")
-    val isFriend: Int,
-
-    @Expose
-    @SerializedName("ispublic")
-    val isPublic: Int,
-
-    @Expose
-    @SerializedName("owner")
-    val owner: String,
 
     @Expose
     @SerializedName("secret")

@@ -7,7 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class ParcelablePhotoInfo(
     val id: String,
     val title: String,
-    val farmId: Int,
-    val secret: String,
-    val serverId: String
+    val url: String
 ) : Parcelable

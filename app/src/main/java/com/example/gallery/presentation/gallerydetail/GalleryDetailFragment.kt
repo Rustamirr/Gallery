@@ -12,7 +12,6 @@ import com.example.gallery.presentation.core.BaseFragment
 import com.example.gallery.presentation.gallery.ParcelablePhotoInfo
 
 private const val ARGUMENT_PHOTO = "ARGUMENT_PHOTO"
-private const val PHOTO_URL_FORMAT = "https://farm%s.staticflickr.com/%s/%s_%s.jpg"
 
 class GalleryDetailFragment :
     BaseFragment<FragmentGalleryDetailBinding, EmptyState, GalleryDetailPresenter>(),
@@ -26,9 +25,7 @@ class GalleryDetailFragment :
     }
 
     private val photoInfo by lazy<ParcelablePhotoInfo> {
-        requireNotNull(
-            arguments?.getParcelable(ARGUMENT_PHOTO)
-        )
+        requireNotNull(arguments?.getParcelable(ARGUMENT_PHOTO))
     }
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryDetailBinding =
@@ -38,14 +35,7 @@ class GalleryDetailFragment :
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title = photoInfo.title
         Glide.with(this)
-            .load(
-                PHOTO_URL_FORMAT.format(
-                    photoInfo.farmId,
-                    photoInfo.serverId,
-                    photoInfo.id,
-                    photoInfo.secret
-                )
-            )
+            .load(photoInfo.url)
             .fitCenter()
             .into(binding.photo)
     }

@@ -41,7 +41,6 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title = getString(R.string.app_name)
-        adapter
         with(binding) {
             findButton.setOnClickListener {
                 presenter.onFindButtonClick()
