@@ -5,7 +5,7 @@ import io.reactivex.Single
 
 interface GalleryInteractor : Interactor<GalleryState> {
 
-    fun loadPhotosInfo(page: Int, pageSize: Int, searchText: String): Single<List<PhotoInfo>>
+    fun loadPhotosInfo(page: Int, pageSize: Int): Single<PhotosInfo>
 
     fun searchTextChanged(searchText: String)
 }

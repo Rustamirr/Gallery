@@ -32,7 +32,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             findButton.setOnClickListener {
-                presenter.onFindButtonClick(searchText.text.toString())
+                presenter.onFindButtonClick()
             }
             recyclerView.layoutManager =
                 GridLayoutManager(requireContext(), RECYCLER_VIEW_COLUMN_COUNT)

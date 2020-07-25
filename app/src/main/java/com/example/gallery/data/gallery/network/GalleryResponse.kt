@@ -6,11 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class SearchPhotosResponse(
     @Expose
     @SerializedName("photos")
-    val photosResponse: PhotosResponse,
-
-    @Expose
-    @SerializedName("stat")
-    val stat: String
+    val photosResponse: PhotosResponse
 )
 
 data class PhotosResponse(

@@ -8,12 +8,15 @@ class GalleryModel
     private val galleryRepository: GalleryRepository
 ) : BaseModel<GalleryState>(GalleryState()), GalleryInteractor {
 
-    override fun loadPhotosInfo(page: Int, pageSize: Int, searchText: String) =
-        galleryRepository.searchPhotosByText(page, pageSize, searchText)
+    override fun loadPhotosInfo(page: Int, pageSize: Int) = observeState()
+        .firstOrError()
+        .flatMap {
+            galleryRepository.searchPhotosByText(page, pageSize, it.searchText)
+        }
 
     override fun searchTextChanged(searchText: String) {
         updateState {
-            copy(isSearchTextFilled = searchText.isNotEmpty())
+            copy(searchText = searchText)
         }
     }
 }
