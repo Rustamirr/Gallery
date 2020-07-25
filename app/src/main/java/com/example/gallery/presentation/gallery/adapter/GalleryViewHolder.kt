@@ -2,16 +2,25 @@ package com.example.gallery.presentation.gallery.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.example.gallery.databinding.FragmentGalleryItemBinding
 
 private const val PHOTO_URL_FORMAT = "https://farm%s.staticflickr.com/%s/%s_%s.jpg"
 
-class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class GalleryViewHolderCreator(
+    private val glideManager: RequestManager,
+    private val onPhotoItemClick: (photoInfoItem: PhotoInfoItem) -> Unit
+) {
+    fun createGalleryViewHolder(itemView: View): GalleryViewHolder =
+        GalleryViewHolder(itemView, glideManager, onPhotoItemClick)
+}
 
-    // TODO: change to Glide.with(fragment)
-    private val glideManager: RequestManager = Glide.with(itemView.context)
+class GalleryViewHolder(
+    itemView: View,
+    private val glideManager: RequestManager,
+    private val onPhotoItemClick: (photoInfoItem: PhotoInfoItem) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
+
     private val binding = FragmentGalleryItemBinding.bind(itemView)
 
     fun bind(item: PhotoInfoItem?) {
@@ -23,6 +32,8 @@ class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .placeholder(android.R.drawable.ic_menu_help)
             .centerCrop()
             .into(binding.photo)
-        itemView.setOnClickListener { TODO("presenter.onPhotoClick(item)") }
+        if (item != null) {
+            binding.root.setOnClickListener { onPhotoItemClick(item) }
+        }
     }
 }

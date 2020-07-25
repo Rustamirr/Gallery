@@ -8,10 +8,13 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.example.gallery.R
 import com.example.gallery.databinding.FragmentGalleryBinding
 import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.presentation.core.BaseFragment
 import com.example.gallery.presentation.gallery.adapter.GalleryAdapter
+import com.example.gallery.presentation.gallery.adapter.GalleryViewHolderCreator
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 
 private const val RECYCLER_VIEW_COLUMN_COUNT = 4
@@ -23,19 +26,29 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         fun newInstance() = GalleryFragment()
     }
 
-    private val adapter = GalleryAdapter()
+    val adapter: GalleryAdapter by lazy {
+        GalleryAdapter(
+            GalleryViewHolderCreator(
+                Glide.with(this@GalleryFragment),
+                presenter::onPhotoItemClick
+            )
+        )
+    }
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryBinding =
         FragmentGalleryBinding.inflate(this, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().title = getString(R.string.app_name)
+        adapter
         with(binding) {
             findButton.setOnClickListener {
                 presenter.onFindButtonClick()
             }
-            recyclerView.layoutManager =
-                GridLayoutManager(requireContext(), RECYCLER_VIEW_COLUMN_COUNT)
+            recyclerView.layoutManager = GridLayoutManager(
+                requireContext(), RECYCLER_VIEW_COLUMN_COUNT
+            )
             recyclerView.adapter = adapter
         }
     }

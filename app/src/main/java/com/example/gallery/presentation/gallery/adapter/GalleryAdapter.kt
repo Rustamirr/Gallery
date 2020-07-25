@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import com.example.gallery.R
 
-class GalleryAdapter :
-    PagedListAdapter<PhotoInfoItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
+class GalleryAdapter(
+    private val galleryViewHolderCreator: GalleryViewHolderCreator
+) : PagedListAdapter<PhotoInfoItem, GalleryViewHolder>(GalleryDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        GalleryViewHolder(
+        galleryViewHolderCreator.createGalleryViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_gallery_item, parent, false)
         )

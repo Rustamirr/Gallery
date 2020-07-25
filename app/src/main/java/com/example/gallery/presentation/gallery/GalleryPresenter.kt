@@ -11,6 +11,7 @@ import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.domain.gallery.PhotoInfo
 import com.example.gallery.presentation.core.BasePresenter
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
+import com.example.gallery.presentation.navigation.Screen
 import io.reactivex.rxkotlin.subscribeBy
 import moxy.InjectViewState
 import ru.terrakok.cicerone.Router
@@ -46,9 +47,9 @@ class GalleryPresenter
         interactor.searchTextChanged(searchText)
     }
 
-    /*fun onPhotoClick(photoItem: PhotoInfoItem) {
+    fun onPhotoItemClick(photoItem: PhotoInfoItem) {
         router.navigateTo(Screen.GalleryDetail(photoItem.toParcelablePhotoInfo()))
-    }*/
+    }
 
     fun onFindButtonClick() {
         val pagedListConfig = PagedList.Config.Builder()
