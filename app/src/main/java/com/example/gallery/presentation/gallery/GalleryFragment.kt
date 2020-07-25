@@ -1,6 +1,7 @@
 package com.example.gallery.presentation.gallery
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.gallery.R
 import com.example.gallery.databinding.FragmentGalleryBinding
 import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.presentation.core.BaseFragment
+import com.example.gallery.presentation.core.hideKeyboard
 import com.example.gallery.presentation.gallery.adapter.GalleryAdapter
 import com.example.gallery.presentation.gallery.adapter.GalleryViewHolderCreator
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
@@ -42,9 +44,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title = getString(R.string.app_name)
         with(binding) {
-            findButton.setOnClickListener {
-                presenter.onFindButtonClick()
-            }
+            findButton.setOnClickListener { onFindButtonClick() }
             recyclerView.layoutManager = GridLayoutManager(
                 requireContext(), RECYCLER_VIEW_COLUMN_COUNT
             )
@@ -54,7 +54,19 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        binding.searchText.doOnTextChanged { text, _, _, _ -> presenter.onSearchTextChanged(text.toString()) }
+        with(binding.searchText) {
+            doOnTextChanged { text, _, _, _ -> presenter.onSearchTextChanged(text.toString()) }
+            setOnKeyListener { _, keyCode, _ ->
+                when (keyCode) {
+                    KeyEvent.KEYCODE_ENTER -> {
+                        if (text.isBlank()) return@setOnKeyListener false
+                        onFindButtonClick()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
     }
 
     override fun renderFindButton(isEnabled: Boolean) {
@@ -67,5 +79,10 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
 
     override fun showErrorOccurred() {
         Toast.makeText(requireContext(), "Error occurred", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onFindButtonClick() {
+        presenter.onFindButtonClick()
+        hideKeyboard()
     }
 }
