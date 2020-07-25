@@ -4,6 +4,8 @@ import com.example.gallery.presentation.gallery.GalleryFragment
 import com.example.gallery.presentation.gallery.GalleryFragmentModule
 import com.example.gallery.presentation.gallerydetail.GalleryDetailFragment
 import com.example.gallery.presentation.gallerydetail.GalleryDetailFragmentModule
+import com.example.gallery.presentation.gallerymap.GalleryMapFragment
+import com.example.gallery.presentation.gallerymap.GalleryMapFragmentModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -23,4 +25,11 @@ interface FragmentBuilder {
         ]
     )
     fun galleryDetailFragmentInjector(): GalleryDetailFragment
+
+    @ContributesAndroidInjector(
+        modules = [
+            GalleryMapFragmentModule::class
+        ]
+    )
+    fun galleryMapFragmentInjector(): GalleryMapFragment
 }

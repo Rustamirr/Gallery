@@ -14,6 +14,6 @@ class MainActivityPresenter
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.navigateTo(Screen.Gallery)
+        router.newRootScreen(Screen.Gallery)
     }
 }
