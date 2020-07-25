@@ -32,8 +32,8 @@ interface GalleryNetworkApi {
     @GET("services/rest/?method=flickr.photos.search&media=photos&format=json&nojsoncallback=1")
     fun searchPhotosByText(
         @Query("api_key") apiKey: String,
-        @Query("per_page") perPage: Int,
         @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
         @Query("text") searchText: String
     ): Single<SearchPhotosResponse>
 }

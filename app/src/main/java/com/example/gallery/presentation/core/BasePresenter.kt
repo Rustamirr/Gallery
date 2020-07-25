@@ -26,6 +26,10 @@ abstract class BasePresenter<S, V : BaseView, I : Interactor<S>>(
         super.onDestroy()
     }
 
+    protected fun Disposable.disposeNow() {
+        takeIf { !it.isDisposed }?.dispose()
+    }
+
     protected fun disposeOnDestroy(vararg disposables: Disposable) {
         disposables.forEach(compositeDisposable::plusAssign)
     }

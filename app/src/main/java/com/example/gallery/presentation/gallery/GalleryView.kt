@@ -1,5 +1,6 @@
 package com.example.gallery.presentation.gallery
 
+import androidx.paging.PagedList
 import com.example.gallery.presentation.core.BaseView
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 import moxy.viewstate.strategy.AddToEndSingleStrategy
@@ -12,7 +13,7 @@ interface GalleryView : BaseView {
     fun renderFindButton(isEnabled: Boolean)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun renderList(list: List<PhotoInfoItem>)
+    fun renderList(list: PagedList<PhotoInfoItem>)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showErrorOccurred()

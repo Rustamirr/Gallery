@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallery.databinding.FragmentGalleryBinding
 import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.presentation.core.BaseFragment
 import com.example.gallery.presentation.gallery.adapter.GalleryAdapter
-import com.example.gallery.presentation.gallery.adapter.PagedDelegate
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 
-private const val GRID_PHOTO_COLUMNS = 4
+private const val RECYCLER_VIEW_COLUMN_COUNT = 4
 
 class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, GalleryPresenter>(),
     GalleryView {
@@ -25,7 +24,6 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
     }
 
     private val adapter = GalleryAdapter()
-    private val pagedDelegate = PagedDelegate()
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryBinding =
         FragmentGalleryBinding.inflate(this, container, false)
@@ -34,14 +32,10 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             findButton.setOnClickListener {
-                pagedDelegate.observePagedList()
-                    .observe(
-                        viewLifecycleOwner,
-                        Observer(adapter::submitList)
-                    )
-                //presenter.onFindButtonClick(searchText.text.toString())
+                presenter.onFindButtonClick(searchText.text.toString())
             }
-            recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_PHOTO_COLUMNS)
+            recyclerView.layoutManager =
+                GridLayoutManager(requireContext(), RECYCLER_VIEW_COLUMN_COUNT)
             recyclerView.adapter = adapter
         }
     }
@@ -55,8 +49,8 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
         binding.findButton.isEnabled = isEnabled
     }
 
-    override fun renderList(list: List<PhotoInfoItem>) {
-        pagedDelegate.list = list
+    override fun renderList(list: PagedList<PhotoInfoItem>) {
+        adapter.submitList(list)
     }
 
     override fun showErrorOccurred() {

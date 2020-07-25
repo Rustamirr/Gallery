@@ -1,57 +1,70 @@
 package com.example.gallery.presentation.gallery.adapter
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
+import android.os.Handler
+import android.os.Looper
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class PagedDelegate {
-    private val pagedDataSource = PagedDataSource(this)
-    private val pagedDataSourceFactory = PagedDataSourceFactory(pagedDataSource)
-    private val pageListConfig = PagedList.Config.Builder()
-        .setEnablePlaceholders(false)
-        .setInitialLoadSizeHint(20)
-        .setPageSize(20)
-        .build()
+private const val START_PAGE = 1
+private const val PAGE_SIZE = 20
 
-    lateinit var list: List<PhotoInfoItem>
+class PagedDelegate
+@Inject constructor() {
 
-    fun observePagedList(): LiveData<PagedList<PhotoInfoItem>> =
-        LivePagedListBuilder<Int, PhotoInfoItem>(pagedDataSourceFactory, pageListConfig)
-            .setFetchExecutor(Executors.newSingleThreadExecutor())
+    fun getPagedList(
+        loadFirstPage: (page: Int, pageSize: Int, callback: PageKeyedDataSource.LoadInitialCallback<Int, PhotoInfoItem>) -> Unit,
+        loadNextPage: (page: Int, pageSize: Int, callback: PageKeyedDataSource.LoadCallback<Int, PhotoInfoItem>) -> Unit
+    ): PagedList<PhotoInfoItem> {
+        val pagedDataSource = PagedDataSource(loadFirstPage, loadNextPage)
+        val pagedListConfig = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(PAGE_SIZE)
+            .setPageSize(PAGE_SIZE)
             .build()
+        return PagedList.Builder(pagedDataSource, pagedListConfig)
+            .setFetchExecutor(Executors.newSingleThreadExecutor())
+            .setNotifyExecutor(MainThreadExecutor())
+            .build()
+    }
 }
 
-private class PagedDataSourceFactory(
-    private val pagedDataSource: PagedDataSource
-) : DataSource.Factory<Int, PhotoInfoItem>() {
-
-    override fun create() = pagedDataSource
-}
-
-private class PagedDataSource(
-    private val storage: PagedDelegate
+class PagedDataSource(
+    private val loadFirstPage: (page: Int, pageSize: Int, callback: LoadInitialCallback<Int, PhotoInfoItem>) -> Unit,
+    private val loadNextPage: (page: Int, pageSize: Int, callback: LoadCallback<Int, PhotoInfoItem>) -> Unit
 ) : PageKeyedDataSource<Int, PhotoInfoItem>() {
+
+    private var page: Int = START_PAGE
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, PhotoInfoItem>
     ) {
-        callback.onResult(storage.list, null, 1)
+        loadFirstPage(page, PAGE_SIZE, callback)
     }
 
     override fun loadAfter(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, PhotoInfoItem>
     ) {
-        callback.onResult(storage.list, 2)
+        page++
+        loadNextPage(page, PAGE_SIZE, callback)
     }
 
     override fun loadBefore(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, PhotoInfoItem>
     ) {
+        // no op
+    }
+}
+
+private class MainThreadExecutor : Executor {
+    private val mHandler: Handler = Handler(Looper.getMainLooper())
+
+    override fun execute(command: Runnable) {
+        mHandler.post(command)
     }
 }

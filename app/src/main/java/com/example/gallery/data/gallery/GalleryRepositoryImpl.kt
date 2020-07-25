@@ -12,7 +12,11 @@ class GalleryRepositoryImpl
     private val galleryNetworkSource: GalleryNetworkSource
 ) : GalleryRepository {
 
-    override fun searchPhotosByText(page: Int, searchText: String): Single<List<PhotoInfo>> =
-        galleryNetworkSource.searchPhotosByText(page, searchText)
+    override fun searchPhotosByText(
+        page: Int,
+        pageSize: Int,
+        searchText: String
+    ): Single<List<PhotoInfo>> =
+        galleryNetworkSource.searchPhotosByText(page, pageSize, searchText)
             .map { it.toPhotoInfoList() }
 }

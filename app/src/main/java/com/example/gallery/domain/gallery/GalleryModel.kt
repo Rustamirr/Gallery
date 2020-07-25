@@ -1,24 +1,15 @@
 package com.example.gallery.domain.gallery
 
 import com.example.gallery.domain.core.BaseModel
-import com.example.gallery.domain.core.Schedulers
-import io.reactivex.Completable
 import javax.inject.Inject
 
 class GalleryModel
 @Inject constructor(
-    private val galleryRepository: GalleryRepository,
-    private val schedulers: Schedulers
+    private val galleryRepository: GalleryRepository
 ) : BaseModel<GalleryState>(GalleryState()), GalleryInteractor {
 
-    override fun loadPhotosInfo(page: Int, searchText: String): Completable =
-        galleryRepository.searchPhotosByText(page, searchText)
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.main())
-            .doOnSuccess {
-                updateState { copy(photoInfoList = it) }
-            }
-            .ignoreElement()
+    override fun loadPhotosInfo(page: Int, pageSize: Int, searchText: String) =
+        galleryRepository.searchPhotosByText(page, pageSize, searchText)
 
     override fun searchTextChanged(searchText: String) {
         updateState {

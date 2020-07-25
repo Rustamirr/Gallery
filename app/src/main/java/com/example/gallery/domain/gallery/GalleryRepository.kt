@@ -4,5 +4,5 @@ import io.reactivex.Single
 
 interface GalleryRepository {
 
-    fun searchPhotosByText(page: Int, searchText: String): Single<List<PhotoInfo>>
+    fun searchPhotosByText(page: Int, pageSize: Int, searchText: String): Single<List<PhotoInfo>>
 }
