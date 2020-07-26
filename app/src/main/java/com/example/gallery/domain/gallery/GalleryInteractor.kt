@@ -1,5 +1,6 @@
 package com.example.gallery.domain.gallery
 
+import com.example.gallery.domain.PhotosInfo
 import com.example.gallery.domain.core.Interactor
 import io.reactivex.Single
 

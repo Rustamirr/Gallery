@@ -4,11 +4,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
+import com.example.gallery.domain.PhotoInfo
 import com.example.gallery.domain.core.Logger
 import com.example.gallery.domain.core.Schedulers
 import com.example.gallery.domain.gallery.GalleryInteractor
 import com.example.gallery.domain.gallery.GalleryState
-import com.example.gallery.domain.gallery.PhotoInfo
 import com.example.gallery.presentation.core.BasePresenter
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 import com.example.gallery.presentation.navigation.Screen
@@ -49,6 +49,10 @@ class GalleryPresenter
 
     fun onPhotoItemClick(photoItem: PhotoInfoItem) {
         router.navigateTo(Screen.GalleryDetail(photoItem.toParcelablePhotoInfo()))
+    }
+
+    fun onMenuMapClick(searchText: String) {
+        router.navigateTo(Screen.GalleryMap(searchText))
     }
 
     fun onFindButtonClick() {

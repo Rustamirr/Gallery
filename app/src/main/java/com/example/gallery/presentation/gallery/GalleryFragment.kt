@@ -1,10 +1,7 @@
 package com.example.gallery.presentation.gallery
 
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.paging.PagedList
@@ -40,6 +37,11 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryBinding =
         FragmentGalleryBinding.inflate(this, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title = getString(R.string.app_name)
@@ -66,6 +68,20 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
                     else -> false
                 }
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_gallery, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_map -> {
+                presenter.onMenuMapClick(binding.searchText.toString())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

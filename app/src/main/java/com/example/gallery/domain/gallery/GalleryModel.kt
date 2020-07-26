@@ -1,5 +1,6 @@
 package com.example.gallery.domain.gallery
 
+import com.example.gallery.domain.GalleryRepository
 import com.example.gallery.domain.core.BaseModel
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class GalleryModel
     override fun loadPhotosInfo(page: Int, pageSize: Int) = observeState()
         .firstOrError()
         .flatMap {
-            galleryRepository.searchPhotosByText(page, pageSize, it.searchText)
+            galleryRepository.searchPhotos(page, pageSize, it.searchText)
         }
 
     override fun searchTextChanged(searchText: String) {

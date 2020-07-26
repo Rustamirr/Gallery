@@ -3,7 +3,7 @@ package com.example.gallery.data.gallery
 import com.example.gallery.data.gallery.network.GalleryNetworkApi
 import com.example.gallery.data.gallery.network.GalleryNetworkSource
 import com.example.gallery.data.gallery.network.GalleryNetworkSourceImpl
-import com.example.gallery.domain.gallery.GalleryRepository
+import com.example.gallery.domain.GalleryRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
