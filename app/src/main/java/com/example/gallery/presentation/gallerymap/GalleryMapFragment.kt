@@ -1,16 +1,22 @@
 package com.example.gallery.presentation.gallerymap
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.gallery.R
 import com.example.gallery.databinding.FragmentGalleryMapBinding
 import com.example.gallery.domain.core.EmptyState
 import com.example.gallery.presentation.core.BaseFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -68,10 +74,25 @@ class GalleryMapFragment :
     }
 
     override fun renderMapMarkers(markerInfo: MapMarkerInfo) {
-        map.addMarker(
-            MarkerOptions()
-                .title(markerInfo.title)
-                .position(LatLng(markerInfo.latitude, markerInfo.longitude))
-        )
+        Glide.with(this)
+            .asBitmap()
+            .load(markerInfo.url)
+            .into(object : CustomTarget<Bitmap>(150, 150) {
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    map.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(markerInfo.latitude, markerInfo.longitude))
+                            .title(markerInfo.title)
+                            .icon(BitmapDescriptorFactory.fromBitmap(resource))
+                    )
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    // no op
+                }
+            })
     }
 }
