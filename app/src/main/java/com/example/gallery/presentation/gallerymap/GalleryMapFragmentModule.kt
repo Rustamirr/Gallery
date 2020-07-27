@@ -11,7 +11,6 @@ interface GalleryMapFragmentModule {
     companion object {
         @Provides
         @SearchTextArgument
-        fun provideSearchTextArgument(galleryMapFragment: GalleryMapFragment): String =
-            galleryMapFragment.searchText
+        fun provideSearchTextArgument(fragment: GalleryMapFragment): String = fragment.searchText
     }
 }

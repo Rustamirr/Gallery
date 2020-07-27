@@ -16,5 +16,5 @@ class GalleryMapModel
 ) : BaseModel<EmptyState>(EmptyState), GalleryMapInteractor {
 
     override fun loadPhotosInfoGeo(): Observable<PhotoInfo> =
-        repository.loadPhotosInfoGeo("Moscow", PAGE)
+        repository.loadPhotosInfoGeo(searchText, PAGE)
 }

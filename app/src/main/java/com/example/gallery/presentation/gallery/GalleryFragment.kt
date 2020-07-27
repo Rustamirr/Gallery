@@ -78,7 +78,7 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding, GalleryState, Galle
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_map -> {
-                presenter.onMenuMapClick(binding.searchText.toString())
+                presenter.onMenuMapClick(binding.searchText.text.toString())
                 true
             }
             else -> super.onOptionsItemSelected(item)
