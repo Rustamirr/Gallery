@@ -16,7 +16,7 @@ class GalleryMapModel
 ) : BaseModel<GalleryMapState>(GalleryMapState()), GalleryMapInteractor {
 
     override fun loadPhotosInfoGeo(): Completable =
-        repository.loadPhotosInfoGeo(searchText, PAGE)
+        repository.loadPhotosInfoGeo("Moscow", PAGE)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
             .doOnSuccess {

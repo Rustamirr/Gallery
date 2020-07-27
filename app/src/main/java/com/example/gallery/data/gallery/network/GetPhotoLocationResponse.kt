@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class GetPhotoLocationResponse(
     @Expose
     @SerializedName("photo")
-    val photoLocationResponse: PhotoLocationResponse?
+    val photoLocationResponse: PhotoLocationResponse
 )
 
 data class PhotoLocationResponse(

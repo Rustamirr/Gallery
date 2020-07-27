@@ -14,7 +14,8 @@ interface GalleryNetworkApi {
         @Query("api_key") apiKey: String,
         @Query("per_page") perPage: Int,
         @Query("text") searchText: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("has_geo") hasGeo: Int
     ): Single<SearchPhotosResponse>
 
     @GET("services/rest/?method=flickr.photos.geo.getLocation&format=json&nojsoncallback=1")

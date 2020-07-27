@@ -5,8 +5,10 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
+private const val NETWORK_API_EXCEPTION = "Network api exception"
 private const val API_KEY = "9905f5d6a51f154d5850cd6e9ea0af93"
-private const val PAGE_SIZE = 20
+private const val LIST_PAGE_SIZE = 20
+private const val MAP_PAGE_SIZE = 5
 
 class GalleryNetworkSourceImpl
 @Inject constructor(
@@ -14,24 +16,29 @@ class GalleryNetworkSourceImpl
 ) : GalleryNetworkSource {
 
     override fun searchPhotos(searchText: String, page: Int) =
-        networkApi.searchPhotos(API_KEY, PAGE_SIZE, searchText, page)
-            .map(SearchPhotosResponse::toPhotoInfo)
+        searchPhotos(searchText, page, LIST_PAGE_SIZE, 0)
+            .map { requireNotNull(it.photosResponse).toPhotoInfo() }
 
     override fun searchPhotosGeo(searchText: String, page: Int): Single<List<PhotoInfo>> =
-        networkApi.searchPhotos(API_KEY, PAGE_SIZE, searchText, page)
-            .map(SearchPhotosResponse::toPhotoInfo)
-            .flatMapObservable {
-                Observable.fromIterable(it)
+        searchPhotos(searchText, page, MAP_PAGE_SIZE, 1)
+            .flatMapObservable { searchResponse ->
+                Observable.fromIterable(requireNotNull(searchResponse.photosResponse).photoResponse)
             }
             .flatMapSingle {
-                networkApi.getPhotoLocation(API_KEY, it.id)
-                    .map {
-                        photoResponse.toPhotoInfo(it)
-                    }
+                getPhotoLocation(it)
             }
             .toList()
-            .map { it.filter { photoInfo -> photoInfo.latitude != null } }
 
-    //Single.just(listOf(PhotoInfo("1", "Test", "", -34.0, 151.0)))
+    private fun searchPhotos(searchText: String, page: Int, pageSize: Int, hasGeo: Int) =
+        networkApi.searchPhotos(API_KEY, pageSize, searchText, page, hasGeo)
+            .doOnSuccess {
+                if (it.photosResponse == null) throw IllegalStateException(NETWORK_API_EXCEPTION)
+            }
 
+    private fun getPhotoLocation(photoResponse: PhotoResponse) =
+        networkApi.getPhotoLocation(API_KEY, photoResponse.id)
+            .map {
+                val location = it.photoLocationResponse.locationResponse
+                photoResponse.toPhotoInfo(location.latitude, location.longitude)
+            }
 }
