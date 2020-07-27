@@ -33,8 +33,11 @@ class GalleryMapFragment :
             }
     }
 
+    private lateinit var map: GoogleMap
+    private val glideManager by lazy { Glide.with(this) }
+    private val mapMarkerSize by lazy { resources.getDimensionPixelSize(R.dimen.map_marker_size) }
+
     val searchText by lazy { requireNotNull(arguments?.getString(ARGUMENT_SEARCH_TEXT)) }
-    lateinit var map: GoogleMap
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryMapBinding =
         FragmentGalleryMapBinding.inflate(this, container, false)
@@ -74,10 +77,10 @@ class GalleryMapFragment :
     }
 
     override fun renderMapMarkers(markerInfo: MapMarkerInfo) {
-        Glide.with(this)
+        glideManager
             .asBitmap()
             .load(markerInfo.url)
-            .into(object : CustomTarget<Bitmap>(150, 150) {
+            .into(object : CustomTarget<Bitmap>(mapMarkerSize, mapMarkerSize) {
                 override fun onResourceReady(
                     resource: Bitmap,
                     transition: Transition<in Bitmap>?
