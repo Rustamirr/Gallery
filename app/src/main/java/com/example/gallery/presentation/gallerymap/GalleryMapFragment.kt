@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.example.gallery.R
 import com.example.gallery.databinding.FragmentGalleryMapBinding
-import com.example.gallery.domain.gallerymap.GalleryMapState
+import com.example.gallery.domain.core.EmptyState
 import com.example.gallery.presentation.core.BaseFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 private const val ARGUMENT_SEARCH_TEXT = "ARGUMENT_SEARCH_TEXT"
 
 class GalleryMapFragment :
-    BaseFragment<FragmentGalleryMapBinding, GalleryMapState, GalleryMapPresenter>(), GalleryMapView,
+    BaseFragment<FragmentGalleryMapBinding, EmptyState, GalleryMapPresenter>(), GalleryMapView,
     OnMapReadyCallback {
 
     companion object {
@@ -67,13 +67,11 @@ class GalleryMapFragment :
         super.onLowMemory()
     }
 
-    override fun renderMapMarkers(list: List<MapMarkerInfo>) {
-        list.forEach {
-            map.addMarker(
-                MarkerOptions()
-                    .position(LatLng(it.latitude, it.longitude))
-                    .title(it.title)
-            )
-        }
+    override fun renderMapMarkers(markerInfo: MapMarkerInfo) {
+        map.addMarker(
+            MarkerOptions()
+                .title(markerInfo.title)
+                .position(LatLng(markerInfo.latitude, markerInfo.longitude))
+        )
     }
 }

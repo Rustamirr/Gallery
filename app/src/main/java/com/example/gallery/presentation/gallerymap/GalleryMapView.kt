@@ -7,5 +7,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface GalleryMapView : BaseView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun renderMapMarkers(list: List<MapMarkerInfo>)
+    fun renderMapMarkers(markerInfo: MapMarkerInfo)
 }
