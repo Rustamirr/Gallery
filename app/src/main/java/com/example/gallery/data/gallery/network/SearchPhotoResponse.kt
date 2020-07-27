@@ -6,17 +6,13 @@ import com.google.gson.annotations.SerializedName
 data class SearchPhotosResponse(
     @Expose
     @SerializedName("photos")
-    val photosResponse: PhotosResponse
+    val photosResponse: PhotosResponse?
 )
 
 data class PhotosResponse(
     @Expose
     @SerializedName("page")
     val page: Int,
-
-    @Expose
-    @SerializedName("pages")
-    val pages: Int,
 
     @Expose
     @SerializedName("photo")

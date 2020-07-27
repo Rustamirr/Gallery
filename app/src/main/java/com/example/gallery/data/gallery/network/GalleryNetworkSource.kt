@@ -1,14 +1,11 @@
 package com.example.gallery.data.gallery.network
 
+import com.example.gallery.domain.PhotoInfo
 import io.reactivex.Single
 
 interface GalleryNetworkSource {
 
-    fun searchPhotos(
-        page: Int,
-        pageSize: Int,
-        searchText: String
-    ): Single<SearchPhotosResponse>
+    fun searchPhotos(searchText: String, page: Int): Single<List<PhotoInfo>>
 
-    fun getPhotoLocation(photoId: String): Single<GetPhotoLocationResponse>
+    fun searchPhotosGeo(searchText: String, page: Int): Single<List<PhotoInfo>>
 }

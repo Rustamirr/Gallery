@@ -12,6 +12,7 @@ import com.example.gallery.domain.gallery.GalleryState
 import com.example.gallery.presentation.core.BasePresenter
 import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 import com.example.gallery.presentation.navigation.Screen
+import com.example.gallery.presentation.toPhotoInfoItem
 import io.reactivex.rxkotlin.subscribeBy
 import moxy.InjectViewState
 import ru.terrakok.cicerone.Router
@@ -48,7 +49,7 @@ class GalleryPresenter
     }
 
     fun onPhotoItemClick(photoItem: PhotoInfoItem) {
-        router.navigateTo(Screen.GalleryDetail(photoItem.toParcelablePhotoInfo()))
+        router.navigateTo(Screen.GalleryDetail(photoItem))
     }
 
     fun onMenuMapClick(searchText: String) {
@@ -70,15 +71,14 @@ class GalleryPresenter
 
     private fun loadPagePhotosInfo(
         page: Int,
-        callbackAction: (pages: Int, list: List<PhotoInfoItem>) -> Unit
+        callbackAction: (list: List<PhotoInfoItem>) -> Unit
     ) {
         disposeOnDestroy(
-            interactor.loadPhotosInfo(page, PAGE_SIZE)
-                .subscribeOn(schedulers.io())
+            interactor.loadPhotosInfo(page)
                 .observeOn(schedulers.main())
                 .subscribeBy(
                     onSuccess = {
-                        callbackAction(it.pages, it.photoInfo.map(PhotoInfo::toPhotoInfoItem))
+                        callbackAction(it.map(PhotoInfo::toPhotoInfoItem))
                     },
                     onError = {
                         logger.logError(it)
@@ -93,7 +93,7 @@ class GalleryPresenter
             params: LoadInitialParams<Int>,
             callback: LoadInitialCallback<Int, PhotoInfoItem>
         ) {
-            loadPagePhotosInfo(START_PAGE) { _, list: List<PhotoInfoItem> ->
+            loadPagePhotosInfo(START_PAGE) { list: List<PhotoInfoItem> ->
                 callback.onResult(list, null, START_PAGE)
             }
         }
@@ -103,7 +103,7 @@ class GalleryPresenter
             callback: LoadCallback<Int, PhotoInfoItem>
         ) {
             val page = params.key + 1
-            loadPagePhotosInfo(page) { _, list: List<PhotoInfoItem> ->
+            loadPagePhotosInfo(page) { list: List<PhotoInfoItem> ->
                 callback.onResult(list, page)
             }
         }

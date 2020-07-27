@@ -12,9 +12,9 @@ interface GalleryNetworkApi {
     @GET("services/rest/?method=flickr.photos.search&media=photos&format=json&nojsoncallback=1")
     fun searchPhotos(
         @Query("api_key") apiKey: String,
-        @Query("page") page: Int,
         @Query("per_page") perPage: Int,
-        @Query("text") searchText: String
+        @Query("text") searchText: String,
+        @Query("page") page: Int
     ): Single<SearchPhotosResponse>
 
     @GET("services/rest/?method=flickr.photos.geo.getLocation&format=json&nojsoncallback=1")

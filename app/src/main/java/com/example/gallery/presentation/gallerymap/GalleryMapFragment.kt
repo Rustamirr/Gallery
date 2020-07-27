@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import com.example.gallery.R
 import com.example.gallery.databinding.FragmentGalleryMapBinding
-import com.example.gallery.domain.core.EmptyState
+import com.example.gallery.domain.gallerymap.GalleryMapState
 import com.example.gallery.presentation.core.BaseFragment
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-
+import com.google.android.gms.maps.model.MarkerOptions
 
 private const val ARGUMENT_SEARCH_TEXT = "ARGUMENT_SEARCH_TEXT"
 
 class GalleryMapFragment :
-    BaseFragment<FragmentGalleryMapBinding, EmptyState, GalleryMapPresenter>(), GalleryMapView,
+    BaseFragment<FragmentGalleryMapBinding, GalleryMapState, GalleryMapPresenter>(), GalleryMapView,
     OnMapReadyCallback {
 
     companion object {
@@ -29,6 +28,7 @@ class GalleryMapFragment :
     }
 
     val searchText by lazy { requireNotNull(arguments?.getString(ARGUMENT_SEARCH_TEXT)) }
+    lateinit var map: GoogleMap
 
     override fun LayoutInflater.createBinding(container: ViewGroup?): FragmentGalleryMapBinding =
         FragmentGalleryMapBinding.inflate(this, container, false)
@@ -36,27 +36,44 @@ class GalleryMapFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().title = getString(R.string.map)
-        binding.mapView.getMapAsync(this)
+        with(binding.mapView) {
+            onCreate(savedInstanceState)
+            getMapAsync(this@GalleryMapFragment)
+        }
     }
 
-    /*override fun onResume() {
+    override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
     }
 
-    override fun onPause() {
-        binding.mapView.onPause()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        binding.mapView.onDestroy()
-        super.onDestroy()
-    }*/
-
     override fun onMapReady(map: GoogleMap) {
-        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(43.1, -87.9)))
+        this.map = map
+        presenter.onMapReady()
     }
 
+    override fun onPause() {
+        super.onPause()
+        binding.mapView.onPause()
+    }
 
+    override fun onDestroyView() {
+        binding.mapView.onDestroy()
+        super.onDestroyView()
+    }
+
+    override fun onLowMemory() {
+        binding.mapView.onLowMemory()
+        super.onLowMemory()
+    }
+
+    override fun renderMapMarkers(list: List<MapMarkerInfo>) {
+        list.forEach {
+            map.addMarker(
+                MarkerOptions()
+                    .position(LatLng(it.latitude, it.longitude))
+                    .title(it.title)
+            )
+        }
+    }
 }

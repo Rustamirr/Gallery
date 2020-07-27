@@ -4,7 +4,7 @@ import io.reactivex.Single
 
 interface GalleryRepository {
 
-    fun searchPhotos(page: Int, pageSize: Int, searchText: String): Single<PhotosInfo>
+    fun loadPhotosInfo(searchText: String, page: Int): Single<List<PhotoInfo>>
 
-    fun getPhotoLocation(photoId: String): Single<PhotoLocation>
+    fun loadPhotosInfoGeo(searchText: String, page: Int): Single<List<PhotoInfo>>
 }

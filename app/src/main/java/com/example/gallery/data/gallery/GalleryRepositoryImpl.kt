@@ -1,10 +1,7 @@
 package com.example.gallery.data.gallery
 
-import com.example.gallery.data.gallery.network.*
+import com.example.gallery.data.gallery.network.GalleryNetworkSource
 import com.example.gallery.domain.GalleryRepository
-import com.example.gallery.domain.PhotoLocation
-import com.example.gallery.domain.PhotosInfo
-import io.reactivex.Single
 import javax.inject.Inject
 
 class GalleryRepositoryImpl
@@ -12,15 +9,9 @@ class GalleryRepositoryImpl
     private val networkSource: GalleryNetworkSource
 ) : GalleryRepository {
 
-    override fun searchPhotos(
-        page: Int,
-        pageSize: Int,
-        searchText: String
-    ): Single<PhotosInfo> =
-        networkSource.searchPhotos(page, pageSize, searchText)
-            .map(SearchPhotosResponse::toPhotosInfo)
+    override fun loadPhotosInfo(searchText: String, page: Int) =
+        networkSource.searchPhotos(searchText, page)
 
-    override fun getPhotoLocation(photoId: String): Single<PhotoLocation> =
-        networkSource.getPhotoLocation(photoId)
-            .map(GetPhotoLocationResponse::toPhotoLocation)
+    override fun loadPhotosInfoGeo(searchText: String, page: Int) =
+        networkSource.searchPhotosGeo(searchText, page)
 }

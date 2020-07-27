@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.gallery.databinding.FragmentGalleryDetailBinding
 import com.example.gallery.domain.core.EmptyState
 import com.example.gallery.presentation.core.BaseFragment
-import com.example.gallery.presentation.gallery.ParcelablePhotoInfo
+import com.example.gallery.presentation.gallery.adapter.PhotoInfoItem
 
 private const val ARGUMENT_PHOTO = "ARGUMENT_PHOTO"
 
@@ -18,13 +18,13 @@ class GalleryDetailFragment :
     GalleryDetailView {
 
     companion object {
-        fun newInstance(photoInfo: ParcelablePhotoInfo) = GalleryDetailFragment()
+        fun newInstance(photoInfo: PhotoInfoItem) = GalleryDetailFragment()
             .apply {
                 arguments = bundleOf(ARGUMENT_PHOTO to photoInfo)
             }
     }
 
-    private val photoInfo by lazy<ParcelablePhotoInfo> {
+    private val photoInfo by lazy<PhotoInfoItem> {
         requireNotNull(arguments?.getParcelable(ARGUMENT_PHOTO))
     }
 
